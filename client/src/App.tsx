@@ -1,8 +1,15 @@
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Header from "./Components/Header";
+import MultiplicationTutor from "./Pages/MultiplicationTutor";
+
 function App() {
   return (
-    <>
-      <p className="text-2xl text-blue-500">some text</p>
-    </>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<MultiplicationTutor />} />
+      </Routes>
+    </Router>
   );
 }
 
