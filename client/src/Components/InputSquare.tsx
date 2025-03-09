@@ -3,6 +3,8 @@ import "../App.css";
 export type InputSquareProps = {
   onClick: () => void;
   isFlashing: boolean;
+  className?: string;
+  value?: string;
 };
 
 export default function InputSquare({ onClick, isFlashing }: InputSquareProps) {
@@ -13,6 +15,7 @@ export default function InputSquare({ onClick, isFlashing }: InputSquareProps) {
     }
   }
 
+  // Handle focus to move caret to the right
   function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
     const input = event.target;
     input.setSelectionRange(input.value.length, input.value.length);
@@ -33,6 +36,7 @@ export default function InputSquare({ onClick, isFlashing }: InputSquareProps) {
       style={{
         appearance: "none",
         userSelect: "none",
+        caretColor: "transparent",
         cursor: "pointer",
       }}
     />
