@@ -15,12 +15,6 @@ export default function InputSquare({ onClick, isFlashing }: InputSquareProps) {
     }
   }
 
-  // Handle focus to move caret to the right
-  function handleFocus(event: React.FocusEvent<HTMLInputElement>) {
-    const input = event.target;
-    input.setSelectionRange(input.value.length, input.value.length);
-  }
-
   return (
     <input
       type="number"
@@ -32,7 +26,6 @@ export default function InputSquare({ onClick, isFlashing }: InputSquareProps) {
       placeholder=""
       onClick={onClick}
       onChange={handleOneNumber}
-      onFocus={handleFocus}
       style={{
         appearance: "none",
         userSelect: "none",

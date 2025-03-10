@@ -4,7 +4,7 @@ import MultiplicationSteps from "../Components/MultiplicationSteps";
 
 export default function MultiplicationTutor() {
   const [num1] = useState(() => Math.floor(Math.random() * 1000) + 1);
-  const [num2] = useState(() => Math.floor(Math.random() * 100) + 1);
+  const [num2] = useState(() => Math.floor(Math.random() * 90) + 10);
 
   return (
     <>

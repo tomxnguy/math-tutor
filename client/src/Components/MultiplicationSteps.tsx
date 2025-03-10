@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InputSquare from "./InputSquare";
+import ProductInput from "./ProductInput";
 
 export type MultiplicationStepsProps = {
   num1: number;
@@ -10,37 +11,32 @@ export default function MultiplicationSteps({
   num1,
   num2,
 }: MultiplicationStepsProps) {
-  const [flashingCarryIndex, setFlashingCarryIndex] = useState<number | null>(
-    null
-  );
-  const [flashingOnesIndex, setFlashingOnesIndex] = useState<number | null>(
-    null
-  );
-  const [flashingTensIndex, setFlashingTensIndex] = useState<number | null>(
-    null
-  );
+  const [isFlashingCarry, setIsFlashingCarry] = useState<number | null>(null);
+  const [checkCorrect, setCheckCorrect] = useState(false);
 
-  function handleInputClick(index: number, row: "carry" | "ones" | "tens") {
+  function handleInputClick(index: number, row: "carry") {
     if (row === "carry") {
-      setFlashingCarryIndex(index);
-      setTimeout(() => setFlashingCarryIndex(null), 500);
-    } else if (row === "ones") {
-      setFlashingOnesIndex(index);
-      setTimeout(() => setFlashingOnesIndex(null), 500);
-    } else {
-      setFlashingTensIndex(index);
-      setTimeout(() => setFlashingTensIndex(null), 500);
+      setIsFlashingCarry(index);
+      setTimeout(() => setIsFlashingCarry(null), 500);
     }
   }
 
   const num1Digits = num1.toString().split("");
   const onesDigit = num2 % 10;
   const onesResult = num1 * onesDigit;
-  const onesResultsDigits = onesResult.toString().padStart(4, "0").split("");
+  const onesResultsDigits = onesResult.toString().split("");
 
   const tensDigit = Math.floor(num2 / 10);
   const tensResult = num1 * tensDigit;
-  const tensResultsDigits = tensResult.toString().padStart(5, "0").split("");
+  const tensResultsDigits = tensResult.toString().split("");
+  tensResultsDigits.push("0");
+
+  const product = num1 * num2;
+  const productDigits = product.toString().split("");
+
+  function handleSubmit() {
+    setCheckCorrect(true);
+  }
 
   return (
     <div className="flex flex-col items-center">
@@ -52,7 +48,7 @@ export default function MultiplicationSteps({
               <InputSquare
                 key={index}
                 onClick={() => handleInputClick(index, "carry")}
-                isFlashing={flashingCarryIndex === index}
+                isFlashing={isFlashingCarry === index}
               />
             ))}
           </div>
@@ -66,24 +62,42 @@ export default function MultiplicationSteps({
 
         {/* Ones Multiplication */}
         <div className="flex justify-end space-x-2 mt-4">
-          {onesResultsDigits.map((_, index) => (
-            <InputSquare
-              key={index}
-              onClick={() => handleInputClick(index, "ones")}
-              isFlashing={flashingOnesIndex === index}
-            />
-          ))}
+          <ProductInput
+            length={onesResultsDigits.length}
+            label="ones"
+            correctAnswer={onesResultsDigits.join("")}
+            checkCorrect={checkCorrect}
+          />
         </div>
 
-        {/*Tens Multiplication*/}
+        {/* Tens Multiplication */}
         <div className="flex space-x-2 border-b-8 pb-4 justify-end mt-4">
-          {tensResultsDigits.map((digit, index) => (
-            <InputSquare
-              key={index}
-              onClick={() => handleInputClick(index, "tens")}
-              isFlashing={flashingTensIndex === index}
-            />
-          ))}
+          <ProductInput
+            length={tensResultsDigits.length}
+            label="tens"
+            correctAnswer={tensResultsDigits.join("")}
+            checkCorrect={checkCorrect}
+          />
+        </div>
+
+        {/* Product */}
+        <div className="flex justify-end space-x-2 mt-4">
+          <ProductInput
+            length={productDigits.length}
+            label="product"
+            correctAnswer={productDigits.join("")}
+            checkCorrect={checkCorrect}
+          />
+        </div>
+
+        {/* Submit Button */}
+        <div className="flex h-full mb-6 justify-center">
+          <button
+            onClick={handleSubmit}
+            className="mt-4 px-4 py-1 bg-green-300 text-whit text-3xl rounded"
+          >
+            Submit
+          </button>
         </div>
       </div>
     </div>
