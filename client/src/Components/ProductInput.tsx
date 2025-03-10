@@ -16,7 +16,10 @@ export default function ProductInput({
   const [value, setValue] = useState<string[]>(Array(length).fill(""));
   const [isCorrect, setIsCorrect] = useState<boolean[] | null>(null);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
+  function handleInputProduct(
+    e: React.ChangeEvent<HTMLInputElement>,
+    index: number
+  ) {
     let input = e.target.value.replace(/\D/g, "");
     if (input.length > 1) return;
     const newValue = [...value];
@@ -46,7 +49,7 @@ export default function ProductInput({
           id={`${label}-input-${index}`}
           type="text"
           value={digit}
-          onChange={(e) => handleChange(e, index)}
+          onChange={(e) => handleInputProduct(e, index)}
           maxLength={1}
           className={`border-4 text-4xl text-center w-14 h-14 ${
             isCorrect === null
